@@ -14,10 +14,11 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   return NextResponse.json(result, { status: result.success ? 200 : 422 });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
+  const id = (await params).id
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const result = await deleteUser(Number(params.id));
+  const result = await deleteUser(Number(id));
   return NextResponse.json(result, { status: result.success ? 200 : 404 });
 }
