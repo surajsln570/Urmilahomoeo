@@ -1,0 +1,186 @@
+// Prisma schema for Urmila Homoeopathic Clinic
+// Migrated from Laravel migrations under database/migrations and app/modules/*/database/migrations
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Auth / Users / Roles
+// (from database/migrations/2026_06_07_103912_create_roles_table.php
+//  and 2026_06_07_103915_create_users_table.php)
+// ---------------------------------------------------------------------------
+
+enum RoleName {
+  SUPER_ADMIN
+  ADMIN
+  DOCTOR
+  PATIENT
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  users     User[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("roles")
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  name            String
+  mobile          String
+  email           String    @unique
+  password        String
+  roleId          Int       @map("role_id")
+  role            Role      @relation(fields: [roleId], references: [id])
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  rememberToken   String?   @map("remember_token")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------------
+// Patients
+// (from app/modules/patient/database/migrations/2026_08_04_160816_create_patients_table.php)
+// ---------------------------------------------------------------------------
+
+enum Sex {
+  male
+  female
+  other
+}
+
+enum Religion {
+  hindu
+  muslim
+  christian
+  sikh
+  other
+}
+
+model Patient {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  age                 Int
+  sex                 Sex
+  religion            Religion
+  address             String
+  remark              String?
+  registrationNumber  Int      @unique @map("registration_number")
+  bloodGroup          String   @map("blood_group")
+  mobile              String
+  patientName         String   @map("patient_name")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("patients")
+}
+
+// ---------------------------------------------------------------------------
+// Treatments (CMS)
+// (from app/modules/treatment/database/migrations/2026_06_25_183421_create_treatments_table.php)
+// ---------------------------------------------------------------------------
+
+model Treatment {
+  id          Int      @id @default(autoincrement())
+  disease     String
+  image       String
+  description String
+  symptoms    String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("treatments")
+}
+
+// ---------------------------------------------------------------------------
+// Hero Images (CMS, homepage carousel)
+// (from app/modules/website/database/migrations/2026_06_19_173008_create_hero_images_table.php
+//  + 2026_06_25_171948_add_status_to_hero_images_table.php)
+// ---------------------------------------------------------------------------
+
+model HeroImage {
+  id        Int      @id @default(autoincrement())
+  heroImage String   @map("hero_image")
+  status    Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("hero_images")
+}
+
+// ---------------------------------------------------------------------------
+// Appointments / Time Slots
+// (from app/modules/appointment/database/migrations/*.php
+//  + 2026_07_31_175826 / 2026_07_31_180710 add_mode migrations)
+// ---------------------------------------------------------------------------
+
+enum Weekday {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
+
+enum SlotMode {
+  online
+  offline
+  both
+}
+
+model TimeSlot {
+  id          Int           @id @default(autoincrement())
+  day         Weekday
+  startTime   String        @map("start_time") // stored HH:mm:ss, kept as string to mirror Laravel TIME semantics
+  endTime     String        @map("end_time")
+  status      Boolean       @default(true)
+  mode        SlotMode      @default(both)
+  appointments Appointment[]
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@map("time_slots")
+}
+
+enum AppointmentStatus {
+  pending
+  confirmed
+  completed
+  cancelled
+}
+
+enum AppointmentMode {
+  online
+  offline
+}
+
+model Appointment {
+  id             Int               @id @default(autoincrement())
+  date           DateTime          @db.Date
+  mode           AppointmentMode   @default(offline)
+  meetingLink    String?           @map("meeting_link")
+  patientName    String            @map("patient_name")
+  patientMobile  String            @map("patient_mobile")
+  status         AppointmentStatus @default(pending)
+  timeSlotId     Int               @map("time_slot_id")
+  timeSlot       TimeSlot          @relation(fields: [timeSlotId], references: [id], onDelete: Cascade)
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+
+  @@map("appointments")
+  @@index([date])
+  @@index([timeSlotId])
+}

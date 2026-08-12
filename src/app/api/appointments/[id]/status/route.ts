@@ -1,0 +1,13 @@
+import { NextResponse } from "next/server";
+import { updateAppointmentStatus, deleteAppointment } from "@/actions/appointment.actions";
+
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  const { status } = await req.json();
+  const result = await updateAppointmentStatus(Number(params.id), status);
+  return NextResponse.json(result, { status: result.success ? 200 : 422 });
+}
+
+export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+  const result = await deleteAppointment(Number(params.id));
+  return NextResponse.json(result);
+}
