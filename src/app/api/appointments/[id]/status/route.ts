@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { updateAppointmentStatus, deleteAppointment } from "@/actions/appointment.actions";
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { status } = await req.json();
-  const result = await updateAppointmentStatus(Number(params.id), status);
+  const id = (await params).id
+  const result = await updateAppointmentStatus(Number(id), status);
   return NextResponse.json(result, { status: result.success ? 200 : 422 });
 }
 

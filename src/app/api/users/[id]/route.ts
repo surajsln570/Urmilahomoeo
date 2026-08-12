@@ -4,12 +4,13 @@ import { authOptions } from "@/lib/auth";
 import { updateUser, deleteUser } from "@/actions/user.actions";
 
 // Converted from app/modules/user/routes/web.php (PUT/DELETE /users/{id})
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const id = (await params).id
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const result = await updateUser(Number(params.id), body);
+  const result = await updateUser(Number(id), body);
   return NextResponse.json(result, { status: result.success ? 200 : 422 });
 }
 
