@@ -1,36 +1,31 @@
-import { writeFile, mkdir, unlink } from "fs/promises";
-import path from "path";
-import { existsSync } from "fs";
+import { put, del } from "@vercel/blob";
 
 /**
- * Mirrors the Laravel pattern of `$file->move(public_path('upload/...'), $filename)`.
- * Saves an uploaded File under /public/uploads/<folder> and returns the
- * public-relative path (e.g. "/uploads/treatments/171234_x.png") to store in the DB.
+ * Vercel's production filesystem is read-only and ephemeral, so uploads are
+ * stored in Vercel Blob instead of local disk. This replaces the original
+ * Laravel `$file->move(public_path('upload/...'), $filename)` pattern.
+ *
+ * Locally (vercel dev / next dev with BLOB_READ_WRITE_TOKEN set), this still
+ * works the same way — Blob is just an HTTP API, no local disk involved.
  */
 export async function saveUploadedFile(file: File, folder: "hero" | "treatments"): Promise<string> {
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  const dir = path.join(process.cwd(), "public", "uploads", folder);
-  if (!existsSync(dir)) {
-    await mkdir(dir, { recursive: true });
-  }
-
   const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-  const filename = `${Date.now()}_${safeName}`;
-  await writeFile(path.join(dir, filename), buffer);
+  const pathname = `${folder}/${Date.now()}_${safeName}`;
 
-  return `/uploads/${folder}/${filename}`;
+  const blob = await put(pathname, file, {
+    access: "public",
+    addRandomSuffix: false,
+  });
+
+  // Store the full public URL — it's what <Image src=".."> needs directly.
+  return blob.url;
 }
 
-export async function deleteUploadedFile(publicPath: string): Promise<void> {
+export async function deleteUploadedFile(url: string): Promise<void> {
   try {
-    const filePath = path.join(process.cwd(), "public", publicPath);
-    if (existsSync(filePath)) {
-      await unlink(filePath);
-    }
+    await del(url);
   } catch {
-    // Non-fatal: mirrors Laravel's file_exists() guard before unlink().
+    // Non-fatal: mirrors the original file_exists() guard before unlink().
   }
 }
 
