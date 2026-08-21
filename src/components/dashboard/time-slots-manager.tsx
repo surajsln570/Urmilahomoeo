@@ -141,7 +141,7 @@ export function TimeSlotsManager({ initialSlots }: { initialSlots: TimeSlot[] })
               <TableCell>{formatTime(s.startTime)} - {formatTime(s.endTime)}</TableCell>
               <TableCell className="capitalize">{s.mode}</TableCell>
               <TableCell>
-                <Badge variant={s.status ? "success" : "outline"}>{s.status ? "Active" : "Inactive"}</Badge>
+                <Badge variant={s.status ? "success" : "outline-solid"}>{s.status ? "Active" : "Inactive"}</Badge>
               </TableCell>
               <TableCell className="text-right space-x-2">
                 <Button size="icon" variant="ghost" onClick={() => openEdit(s)}>

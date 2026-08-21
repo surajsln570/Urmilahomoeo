@@ -12,9 +12,9 @@ import type { Appointment, TimeSlot } from "@prisma/client";
 
 type AppointmentWithSlot = Appointment & { timeSlot: TimeSlot };
 
-const statusVariant: Record<string, "success" | "secondary" | "destructive" | "outline"> = {
+const statusVariant: Record<string, "success" | "secondary" | "destructive" | "outline-solid"> = {
   pending: "secondary",
-  confirmed: "outline",
+  confirmed: "outline-solid",
   completed: "success",
   cancelled: "destructive",
 };
