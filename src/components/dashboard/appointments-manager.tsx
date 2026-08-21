@@ -7,7 +7,7 @@ import { updateAppointmentStatus, deleteAppointment } from "@/actions/appointmen
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
-import { formatDate, formatTime } from "@/lib/utils";
+import { formatDate, formatTime } from "@/lib/utils/utils";
 import type { Appointment, TimeSlot } from "@prisma/client";
 
 type AppointmentWithSlot = Appointment & { timeSlot: TimeSlot };
@@ -80,7 +80,7 @@ export function AppointmentsManager({ initialAppointments }: { initialAppointmen
                     <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
-                <Badge variant={statusVariant[a.status]} className="ml-2 capitalize">{a.status}</Badge>
+                <Badge className="ml-2 capitalize">{a.status}</Badge>
               </TableCell>
               <TableCell className="text-right">
                 <Button size="icon" variant="ghost" onClick={() => onDelete(a.id)}>
