@@ -129,7 +129,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserWithRole[] })
               <TableCell>{u.email}</TableCell>
               <TableCell>{u.mobile}</TableCell>
               <TableCell>
-                <Badge variant="outline">{u.role?.name ?? "—"}</Badge>
+                <Badge >{u.role?.name ?? "—"}</Badge>
               </TableCell>
               <TableCell className="text-right space-x-2">
                 <Button size="icon" variant="ghost" onClick={() => openEdit(u)}>

@@ -14,7 +14,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { formatTime } from "@/lib/utils";
+import { formatTime } from "@/lib/utils/utils";
 import type { TimeSlot } from "@prisma/client";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -141,7 +141,7 @@ export function TimeSlotsManager({ initialSlots }: { initialSlots: TimeSlot[] })
               <TableCell>{formatTime(s.startTime)} - {formatTime(s.endTime)}</TableCell>
               <TableCell className="capitalize">{s.mode}</TableCell>
               <TableCell>
-                <Badge variant={s.status ? "success" : "outline-solid"}>{s.status ? "Active" : "Inactive"}</Badge>
+                <Badge>{s.status ? "Active" : "Inactive"}</Badge>
               </TableCell>
               <TableCell className="text-right space-x-2">
                 <Button size="icon" variant="ghost" onClick={() => openEdit(s)}>

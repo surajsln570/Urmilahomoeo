@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { appointmentSchema, updateAppointmentSchema, type AppointmentInput } from "@/validations/appointment.schema";
-import { weekdayFromDate, formatTime } from "@/lib/utils";
+import { weekdayFromDate, formatTime } from "@/lib/utils/utils";
 
 // Converted from app/modules/appointment/service/AppointmentService.php
 

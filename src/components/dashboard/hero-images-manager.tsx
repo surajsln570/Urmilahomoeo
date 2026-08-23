@@ -73,7 +73,7 @@ export function HeroImagesManager({ initialImages }: { initialImages: HeroImage[
             <div className="relative h-40 w-full">
               <Image src={img.heroImage} alt="Hero" fill className="object-cover rounded-t-xl" />
               {img.status && (
-                <Badge variant="success" className="absolute top-2 left-2">
+                <Badge className="absolute top-2 left-2">
                   Active on homepage
                 </Badge>
               )}
