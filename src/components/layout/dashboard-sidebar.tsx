@@ -14,7 +14,9 @@ import {
   CalendarCheck,
   Clock,
   LogOut,
+  Menu,
 } from "lucide-react";
+import { useState } from "react";
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -29,14 +31,20 @@ const links = [
 // Converted from app/modules/dashboard/resources/views/layouts/dashboardLayout.blade.php
 export function DashboardSidebar() {
   const pathname = usePathname();
-
+  const [isNavOpen, setIsNavOpen] = useState(false)
   return (
-    <aside className="w-64 shrink-0 border-r bg-white h-screen sticky top-0 flex flex-col">
-      <div className="p-4 border-b">
-        <span className="font-bold text-primary">Urmila Clinic</span>
-        <p className="text-xs text-muted-foreground">Admin Dashboard</p>
+    <aside className="w-full lg:w-64 shrink-0 border-r lg:h-screen lg:sticky top-0 lg:flex flex-col">
+      <div className="p-4 flex justify-between w-full border-b">
+        <div className="w-full">
+          <span className="font-bold text-primary">Urmila Clinic</span>
+          <p className="text-xs text-muted-foreground">Admin Dashboard</p>
+        </div>
+        <Menu onClick={() => setIsNavOpen(!isNavOpen)} className="lg:hidden" />
+        <div>
+
+        </div>
       </div>
-      <nav className="flex-1 p-3 space-y-1">
+      {isNavOpen && <nav className="flex-1 p-3 space-y-1">
         {links.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
@@ -53,13 +61,13 @@ export function DashboardSidebar() {
             </Link>
           );
         })}
-      </nav>
-      <div className="p-3 border-t">
+      </nav>}
+      {isNavOpen && <div className="p-3 border-t">
         <Button variant="outline" className="w-full justify-start gap-2" onClick={() => signOut({ callbackUrl: "/login" })}>
           <LogOut className="h-4 w-4" />
           Logout
         </Button>
-      </div>
+      </div>}
     </aside>
   );
 }
