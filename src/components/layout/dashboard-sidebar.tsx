@@ -35,10 +35,10 @@ export function DashboardSidebar() {
   return (
     <aside className="w-full lg:w-64 shrink-0 border-r lg:h-screen lg:sticky top-0 lg:flex flex-col">
       <div className="p-4 flex justify-between w-full border-b">
-        <div className="w-full">
+        <Link href={'/'} className="w-full">
           <span className="font-bold text-primary">Urmila Clinic</span>
           <p className="text-xs text-muted-foreground">Admin Dashboard</p>
-        </div>
+        </Link>
         <Menu onClick={() => setIsNavOpen(!isNavOpen)} className="lg:hidden" />
         <div>
 
