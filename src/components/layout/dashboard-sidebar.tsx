@@ -44,7 +44,7 @@ export function DashboardSidebar() {
 
         </div>
       </div>
-      <nav className="lg:flex-1 hidden p-3 space-y-1">
+      <div className="lg:flex flex-col hidden p-3 space-y-1">
         {links.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
@@ -61,7 +61,7 @@ export function DashboardSidebar() {
             </Link>
           );
         })}
-      </nav>
+      </div>
       {isNavOpen && <nav className="flex-1 p-3 space-y-1">
         {links.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
