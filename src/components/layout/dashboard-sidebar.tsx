@@ -44,6 +44,24 @@ export function DashboardSidebar() {
 
         </div>
       </div>
+      <nav className="lg:flex-1 hidden p-3 space-y-1">
+        {links.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium",
+                active ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"
+              )}
+            >
+              <Icon className="h-4 w-4" />
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
       {isNavOpen && <nav className="flex-1 p-3 space-y-1">
         {links.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
@@ -68,6 +86,12 @@ export function DashboardSidebar() {
           Logout
         </Button>
       </div>}
+      <div className="p-3 hidden lg:block border-t">
+        <Button variant="outline" className="w-full justify-start gap-2" onClick={() => signOut({ callbackUrl: "/login" })}>
+          <LogOut className="h-4 w-4" />
+          Logout
+        </Button>
+      </div>
     </aside>
   );
 }
