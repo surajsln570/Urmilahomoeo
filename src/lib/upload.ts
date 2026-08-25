@@ -9,6 +9,11 @@ import { put, del } from "@vercel/blob";
  * works the same way — Blob is just an HTTP API, no local disk involved.
  */
 export async function saveUploadedFile(file: File, folder: "hero" | "treatments"): Promise<string> {
+  console.log("=== BLOB DEBUG ===");
+  console.log("Token exists:", !!process.env.BLOB_READ_WRITE_TOKEN);
+  console.log("Token prefix:", process.env.BLOB_READ_WRITE_TOKEN?.slice(0, 15));
+  console.log("VERCEL_ENV:", process.env.VERCEL_ENV);
+  console.log("==================");
   const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
   const pathname = `${folder}/${Date.now()}_${safeName}`;
 
