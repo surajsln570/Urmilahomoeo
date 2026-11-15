@@ -20,11 +20,7 @@ function hoursBetween(start: string, end: string) {
   return (eh * 60 + em - (sh * 60 + sm)) / 60;
 }
 
-/**
- * Mirrors AppointmentService::getAvailableSlots(): finds time slots configured
- * for the given date's weekday, then filters out any slot that has already
- * reached capacity (10 appointments per hour of slot duration) for that date.
- */
+
 export async function getAvailableSlots(date: string) {
   const dayName = weekdayFromDate(date);
 

@@ -1,13 +1,5 @@
 import { put, del } from "@vercel/blob";
 
-/**
- * Vercel's production filesystem is read-only and ephemeral, so uploads are
- * stored in Vercel Blob instead of local disk. This replaces the original
- * Laravel `$file->move(public_path('upload/...'), $filename)` pattern.
- *
- * Locally (vercel dev / next dev with BLOB_READ_WRITE_TOKEN set), this still
- * works the same way — Blob is just an HTTP API, no local disk involved.
- */
 export async function saveUploadedFile(file: File, folder: "hero" | "treatments"): Promise<string> {
   console.log("=== BLOB DEBUG ===");
   console.log("Token exists:", !!process.env.BLOB_READ_WRITE_TOKEN);
