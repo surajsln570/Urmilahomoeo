@@ -8,13 +8,13 @@ export default function AppointmentPage() {
   return (
     <>
       <PublicNav />
-      <div className="container py-16 flex justify-center">
+      <div className="container py-26 flex justify-center">
         <Card className="w-full max-w-lg">
           <CardHeader>
             <CardTitle>Book an Appointment</CardTitle>
             <CardDescription>Choose a date to see available time slots.</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="">
             <AppointmentForm />
           </CardContent>
         </Card>

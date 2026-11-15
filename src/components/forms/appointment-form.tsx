@@ -64,10 +64,13 @@ export function AppointmentForm() {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 z-100">
       <div className="space-y-2">
         <Label htmlFor="patientName">Full name</Label>
-        <Input id="patientName" {...register("patientName")} />
+        <input type="text" placeholder="Enter Full Name" className="p-2" />
+        <Input id="patientName"
+        // {...register("patientName")} 
+        />
         {errors.patientName && <p className="text-sm text-destructive">{errors.patientName.message}</p>}
       </div>
 

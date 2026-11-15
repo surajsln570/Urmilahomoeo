@@ -6,14 +6,12 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import clsx from "clsx";
-import { Card, CardContent } from "../ui/card";
 
-// Converted from app/modules/website/resources/views/components/nav.blade.php
 export function PublicNav() {
   const [isNavOpen, setIsNavOpen] = useState(false)
   return (
-    <div className="fixed inset-0 z-40 left-0 top-0 w-full">
-      <header className=" bg-bg-primary/80 flex items-center backdrop-blur-sm min-h-[80px] w-full absolute top-0 z-40">
+    <>
+      <header className="bg-bg-primary/80 flex items-center backdrop-blur-sm min-h-[80px] w-full fixed top-0 left-0 z-40">
         <Container className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <Avatar size="xl">
@@ -26,9 +24,8 @@ export function PublicNav() {
               </Link>
               <p className="text-text-muted lg:text-md text-sm">Dr. Deepak Singh (BHMS)</p>
             </div>
-
           </div>
-          <nav className=" items-center lg:flex hidden gap-6 text-sm font-medium.">
+          <nav className="items-center lg:flex hidden gap-6 text-sm font-medium">
             <Link href="/#treatments" className="hover:text-primary">Treatments</Link>
             <Link href="/#testimonials" className="hover:text-primary">Testimonials</Link>
             <Link href="/appointment" className="hover:text-primary">Book Appointment</Link>
@@ -41,9 +38,8 @@ export function PublicNav() {
           </Link>
           <Menu onClick={() => setIsNavOpen(!isNavOpen)} className="lg:hidden" />
         </Container>
-
       </header>
-      <div onClick={() => setIsNavOpen(false)} className={clsx("bg-bg-dark/20 inset-0 fixed top-0  min-h-screen duration-300 transition-all z-40 w-full", isNavOpen ? "visible opacity-100" : "invisible opacity-0")}>
+      <div onClick={() => setIsNavOpen(false)} className={clsx("bg-bg-dark/20 inset-0 fixed top-0 min-h-screen duration-300 transition-all z-40 w-full", isNavOpen ? "visible opacity-100" : "invisible opacity-0")}>
         <div className={clsx("bg-bg-primary/80 p-2 z-50 inset-0 rounded-tr-lg transition-all duration-300 rounded-br-lg backdrop-blur-md absolute min-h-screen w-[80vw] grid grid-rows-12", isNavOpen ? "left-0" : "-left-full")}>
           <div className="row-span-2 border-b content-center border-border-secondary w-full grid grid-cols-3">
             <div className="col-span-1 flex items-center"><div className="bg-purple-500 rounded-full w-[80px] h-[80px]"></div></div>
@@ -63,6 +59,6 @@ export function PublicNav() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
