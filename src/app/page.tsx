@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getActiveHeroImages } from "@/actions/hero-image.actions";
 import { getAllTreatments } from "@/actions/treatment.actions";
 import { Container } from "@/components/ui/container";
-
+import { HeartHandshake, Stethoscope, Video } from "lucide-react";
 // Converted from routes/web.php `/` + app/modules/website/resources/views/screens/homescreen/homescreen.blade.php
 export default async function HomePage() {
   const [heroImages, treatments] = await Promise.all([getActiveHeroImages(), getAllTreatments()]);
@@ -65,18 +65,39 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
-        <section className="py-8">
-          <div className="container grid gap-8 md:grid-cols-3 text-center">
-            {[
-              { title: "Experienced Doctors", desc: "Decades of homoeopathic practice." },
-              { title: "Individualized Care", desc: "Treatment tailored to each patient." },
-              { title: "Online & In-Clinic", desc: "Consult however suits you best." },
-            ].map((item) => (
-              <div key={item.title} className="p-6 rounded-xl bg-secondary/40">
-                <h3 className="font-semibold text-lg">{item.title}</h3>
-                <p className="text-sm text-muted-foreground mt-2">{item.desc}</p>
-              </div>
-            ))}
+        <section className="relative overflow-hidden bg-secondary/30 py-20 lg:py-32">
+          <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
+          <div className="container relative">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="text-4xl font-bold tracking-tight lg:text-5xl">Why Choose Us</h2>
+              <div className="mx-auto mt-6 h-1.5 w-20 rounded-full bg-primary" />
+            </div>
+            <div className="mt-16 grid gap-8 md:grid-cols-3 lg:gap-10">
+              {[
+                { icon: Stethoscope, title: "Experienced Doctors", desc: "Decades of homoeopathic practice." },
+                { icon: HeartHandshake, title: "Individualized Care", desc: "Treatment tailored to each patient." },
+                { icon: Video, title: "Online & In-Clinic", desc: "Consult however suits you best." },
+              ].map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.title}
+                    className="group relative overflow-hidden rounded-3xl border bg-card p-10 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-primary/40 hover:shadow-xl lg:p-12"
+                  >
+                    <span className="absolute right-6 top-4 select-none text-7xl font-extrabold text-primary/5 transition-colors duration-300 group-hover:text-primary/10">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="relative mb-8 inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-8 ring-primary/5 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:ring-primary/10">
+                      <Icon className="h-10 w-10" />
+                    </div>
+                    <h3 className="relative text-xl font-semibold lg:text-2xl">{item.title}</h3>
+                    <p className="relative mt-3 text-base leading-relaxed text-muted-foreground">{item.desc}</p>
+                    <span className="absolute inset-x-0 bottom-0 h-1.5 origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100" />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </section>
       </Container>

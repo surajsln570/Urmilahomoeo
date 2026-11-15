@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils/utils";
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: "Urmila Homoeopathic Clinic",
+  title: "Curative",
   description: "Homoeopathic clinic — treatments, appointments and patient care.",
 };
 

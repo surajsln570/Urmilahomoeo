@@ -1,4 +1,4 @@
-// Prisma schema for Urmila Homoeopathic Clinic
+// Prisma schema for Curative
 // Migrated from Laravel migrations under database/migrations and app/modules/*/database/migrations
 
 generator client {

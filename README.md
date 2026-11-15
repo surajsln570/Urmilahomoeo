@@ -1,4 +1,4 @@
-# Urmila Homoeopathic Clinic — Next.js Edition
+# Curative — Next.js Edition
 
 A production-ready migration of the original Laravel + Inertia/React application to
 **Next.js 15 (App Router)**, **TypeScript**, **Prisma/MySQL**, and **NextAuth**.
